@@ -4,12 +4,19 @@ module.exports = function toReadable (number) {
     if (str==1 || (str==2 && (number % 10) == 0) || (str==2 && Math.floor(number/10) == 1)) {
       readable = numToString(number);
     } else {
-      for (i=0; i<str; i++) {
-        readable = numToString((number % 10)*(10**(i))) + ' ' + readable; 
-        console.log(readable);
-        number = Math.floor(number / 10);
-      }
-    } 
+        for (i=0; i<str; i++) {
+            if ((number % 10) != 0) {
+              if (i==0 && (number % 100) > 9 && (number % 100) < 20) {
+                readable = numToString(number % 100) + ' ' + readable;
+                number = number - (number % 100);
+              } else {
+                readable = numToString((number % 10)*(10**(i))) + ' ' + readable;
+              }
+            }
+            number = Math.floor(number / 10);
+          }
+          readable = readable.trim();
+        }  
     return readable;
   }
 
